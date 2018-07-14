@@ -1,0 +1,18 @@
+0 HEAD 
+1 SOUR PAF
+1 GEDC 
+2 VERS 5.5
+2 FORM LINEAGE-LINKED
+1 CHAR ASCII
+1 SUBM @U1@
+0 @U1@ SUBM
+1 NAME Submitter
+0 @INDI1@ INDI
+1 NAME test /test/
+2 GIVN test
+2 SURN test
+0 @INDI2@ INDI
+1 NAME test /test/
+2 GIVN test
+2 SURN test
+0 TRLR 

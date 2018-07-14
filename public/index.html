@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GEDCOM PARSER AND VIEWER</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GEDCOM ASSIGNMENT">
+    <meta name="keywords" content="GEDCOM PARSER AND VIEWER">
+    <meta name="author" content="Saatvik Bhayana">
+    <!-- Load jquery, bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <!-- Custom CSS End -->
+</head>
+<body>
+    <div id= "header" class = "container-fluid"> 
+        <h3 class="text-center">Geneology App</h3>
+    </div>
+    <div class = "form-group element1">
+        <hr>
+        <label for="STATUS">STATUS:</label>
+        <textarea class="form-control" rows="4" id="statusField" readonly>test</textarea>
+        <hr>
+    </div>
+    <h2 class = text-center>File View</h2>
+    <div class = "scrollTable table-responsive">
+        <table class = "table table-inverse" id = 'fileTable'>
+            <thead>
+                <th>File Name (click to download)</th>
+                <th>Source</th>
+                <th>GEDC version</th>
+                <th>encoding</th>
+                <th>Submitter Name</th>
+                <th>Submitter Address</th>
+                <th>Number of individuals</th>
+                <th>Number of Families</th>
+            </thead>
+            <tbody id = 'fileBody'>
+                <tr>
+                    <td>DUMMY</td>
+                    <td>DUMMY</td>
+                    <td>DUMMY</td>
+                    <td>DUMMY</td>
+                    <td>DUMMY</td>
+                    <td>DUMMY</td>
+                    <td>DUMMY</td>
+                    <td>DUMMY</td>
+                </tr>                
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <h2 class = text-center>GEDCOM View</h2>
+    <hr>
+    <div class="dropdown">
+              <select class="form-control" id="fileList">
+
+              </select>
+      </ul>
+    </div>
+    <div class = "scrollTable table-responsive" >
+        <table class = "table table-inverse" id = 'indiTable'>
+            <thead>
+                <th>Given Name</th>
+                <th>Surname</th>
+                <th>Sex</th>
+                <th>Family Size</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>DUMMY</td>
+                    <td>DUMMY</td>
+                    <td>DUMMY</td>
+                    <td>DUMMY</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    
+    <div class = "text-center container-fluid scrollTable">
+        <hr>
+        <h2> GEDCOM UTILITIES</h2>
+        <hr>
+		<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#upload"> Upload GEDCOM </button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#create"> Create Simple GEDCOM </button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addIndi"> Add Individual </button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#getDesc"> Get Descendents </button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#getAnces"> Get Ancestors </button>
+    </div>
+    <div class = "text-center container-fluid scrollTable">
+        <hr>
+        <h2> SQL OPERATIONS</h2>
+        <hr>
+		<button type="button" class="btn btn-info btn-lg" id = "store"> Store All Files </button>
+        <button type="button" class="btn btn-info btn-lg" id = "clear"> Clear All Data </button>
+        <button type="button" class="btn btn-info btn-lg" id = "dbStatus"> Display DB Status </button>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#query"> Query </button>
+    </div>
+    
+          <!-- Modal -->
+        <div id="query" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Query Database</h4>
+              </div>
+              <div class="modal-body">
+				  
+				  
+				  <button type="button" class ="btn btn-default" id = "qLastName"> All Indviduals by Last Name</button>
+				  <button type="button" class ="btn btn-default" id = "qFromFile"> All Indviduals From File</button>
+				  <button type="button" class ="btn btn-default" id = "q5Longer"> All Indviduals with first names longer than 5 letters</button>
+				  <button type="button" class ="btn btn-default" id = "qSpecLetter"> All Indviduals with first names starting with specific letter</button>
+				  <button type="button" class ="btn btn-default" id = "qEnds"> All Indviduals whose last name ends with ___</button>
+				  
+				  <br>Custom Statement:<br>
+				<input type="text" name="customStatement" id = cStatement><br>
+				<button type="button" class ="btn btn-default" id = "qCustom"> Submit Custom</button>
+				  
+				  <div class = "scrollTable table-responsive" >
+                    <table class = "table table-inverse" id = 'qTable'>
+                        <thead>
+                            <th>Given Name</th>
+                            <th>Surname</th>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+              <!-- Modal -->
+        <div id="login" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Login Info</h4>
+              </div>
+              <div class="modal-body">	
+				<div class="form-group">
+                  <label for="user">Username:</label>
+                  <input type="text" class="form-control" id="user">
+                </div> 
+                <div class="form-group">
+                  <label for="pass">Password:</label>
+                  <input type="text" class="form-control" id="pass">
+                </div> 
+                <div class="form-group">
+                  <label for="dbname">Database:</label>
+                  <input type="text" class="form-control" id="dbname">
+                </div> 
+				<button type = "button" id = "submitDB" class = 'btn btn-info btn-lg'> Submit </button>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      <!-- Modal -->
+        <div id="upload" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Upload GEDCOM</h4>
+              </div>
+              <div class="modal-body">
+	
+				<form action ="/upload" method = "post" enctype = "multipart/form-data">
+						<label for="file"> Choose a .ged file</label>
+						<input type = "file" accept = ".ged" name = "uploadFile"/>
+						<input type = "submit" value = "upload"/>
+						</form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div id="create" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Create GEDCOM</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="fileName">File Name:</label>
+                  <input type="text" class="form-control" id="fileName">
+                </div>
+                <div class="form-group">
+                  <label for="subName">Submitter Name:</label>
+                  <input type="text" class="form-control" id="subName">
+                </div> 
+                <div class="form-group">
+                  <label for="subAddr">Submitter Address:</label>
+                  <input type="text" class="form-control" id="subAddr">
+                </div>  
+                <hr>  
+                <button type = "button" id = "submitCreate" class = 'btn btn-info btn-lg'> Submit </button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Modal -->
+        <div id="addIndi" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Individual</h4>
+              </div>
+              <div class="modal-body">
+                  
+                <div class="form-group">
+                  <label for="fileListIndi">File selection:</label>
+                  <select class="form-control" id="fileListIndi">
+
+                  </select>
+                </div>
+                  
+                <div class="form-group">
+                  <label for="givenName">Given name:</label>
+                  <input type="text" class="form-control" id="givenName">
+                </div> 
+                <div class="form-group">
+                  <label for="surName">Surname:</label>
+                  <input type="text" class="form-control" id="surName">
+                </div>  
+                <hr>
+                <button type = "button" id = "submitAdd" class = 'btn btn-info btn-lg'> Submit </button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Modal -->
+        <div id="getDesc" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Get Descendents</h4>
+              </div>
+              <div class="modal-body">
+                  
+                <div class="form-group">
+                  <label for="fileListDesc">File selection:</label>
+                  <select class="form-control" id="fileListDesc">
+					  
+                  </select>
+                </div>
+                  
+                <div class="form-group">
+                  <label for="descName">Given name:</label>
+                  <input type="text" class="form-control" id="descName">
+                </div> 
+                <div class="form-group">
+                  <label for="descSur">Surname:</label>
+                  <input type="text" class="form-control" id="descSur">
+                </div>  
+                  
+                <div class="form-group">
+                  <label for="descNum">Generation Number:</label>
+                  <input type="number" min = "0" class="form-control" id="descNum" value = "0">
+                </div>   
+                
+                <div class = "scrollTable table-responsive" >
+                    <table class = "table table-inverse">
+                        <thead>
+                            <th>Given Name</th>
+                            <th>Surname</th>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <button type = "button" id = "submitDesc" class = 'btn btn-info btn-lg'> Submit </button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div id="getAnces" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Get Ancestors</h4>
+              </div>
+              <div class="modal-body">
+                  
+                <div class="form-group">
+                  <label for="fileListAnces">File selection:</label>
+                  <select class="form-control" id="fileListAnces">
+
+                  </select>
+                </div>
+                  
+                <div class="form-group">
+                  <label for="ancesName">Given name:</label>
+                  <input type="text" class="form-control" id="ancesName">
+                </div> 
+                <div class="form-group">
+                  <label for="ancesSur">Surname:</label>
+                  <input type="text" class="form-control" id="ancesSur">
+                </div>  
+                  
+                <div class="form-group">
+                  <label for="ancesNum">Generation Number:</label>
+                  <input type="number" min = "0" max = "2000000000" class="form-control" id="ancesNum" value = "0">
+                </div>   
+                
+                <div class = "scrollTable table-responsive" >
+                    <table class = "table table-inverse">
+                        <thead>
+                            <th>Given Name</th>
+                            <th>Surname</th>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <button type = "button" id = "submitAnces" class = 'btn btn-info btn-lg'> Submit </button>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    
+    <!-- Leave me at the bottom of body -->
+    <script src="./index.js"></script>
+</body>
+    
+
+</html>
+
+
+
+
+
+
+
